@@ -4,6 +4,10 @@ const express = require('express');
 const app = express();
 const db = require('./models'); //models/index.js에서 sequelize와 모델 불러오기
 const PORT = process.env.PORT || 3000;
+const bodyParser = require('body-parser');
+
+app.use(express.json()); // JSON 형식의 body 파싱
+app.use(bodyParser.urlencoded({ extended: false }));
 
 // DB 연결 및 서버 실행
 db.sequelize
@@ -27,3 +31,9 @@ db.sequelize
   .catch(err => {
     console.error('db connection failed: ', err);
   });
+
+// router
+var authRouter = require('./router/auth');
+
+// routing
+app.use('/auth', authRouter);

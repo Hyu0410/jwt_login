@@ -18,9 +18,9 @@ const login = async (req, res) => {
         })
 
         if (!user) {
-        return res.status(401).json({
-            message: "The ID or password does not match."
-        });
+            return res.status(401).json({
+                message: "The ID or password does not match."
+            });
         } else { // 로그인 성공
             const userInfo = user.dataValues; // user 객체의 필드값으로 이루어진 json
 
@@ -50,6 +50,37 @@ const login = async (req, res) => {
     }
 }
 
+const profile = async (req, res) => {
+    const userId = req.userId;
+
+    try {
+        const user = await User.findOne({
+            where: {
+                userId: userId
+            }
+        })
+
+        if(!user){
+            return res.status(401).json({
+                message: "User not found for the provided user ID."
+            });
+        }
+        res.status(200).json({
+            message: "User retrieved successfully.",
+            userId: user.userId,
+            userName: user.userName
+        })
+
+    } catch(err) {
+        console.log(`error: ${err}`);
+        res.status(500).json({
+            error: err,
+            message: "Internal Server Error"
+        })
+    }
+}
+
 module.exports = {
-    login
+    login,
+    profile
 }

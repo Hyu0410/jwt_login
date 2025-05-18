@@ -6,6 +6,9 @@ const db = require('./models'); //models/index.js에서 sequelize와 모델 불�
 const PORT = process.env.PORT || 3000;
 const bodyParser = require('body-parser');
 
+const cookieParser = require('cookie-parser');
+app.use(cookieParser());
+
 app.use(express.json()); // JSON 형식의 body 파싱
 app.use(bodyParser.urlencoded({ extended: false }));
 

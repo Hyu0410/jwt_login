@@ -22,7 +22,17 @@ const generateRefreshToken = () => {
   );
 };
 
+const authenticateRefreshToken = async (token) => {
+  try {
+    const decodedToken = await jwt.verify(token, process.env.REFRESH_KEY);
+    return decodedToken; // 유효성 인증에 성공하면 복호화된 토큰 데이터 반환
+  } catch(err) {
+    throw err;
+  }
+}
+
 module.exports = {
   generateAccessToken,
-  generateRefreshToken
+  generateRefreshToken,
+  authenticateRefreshToken
 };
